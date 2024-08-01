@@ -1,0 +1,1 @@
+alter table actor drop column test;

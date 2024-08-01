@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ActorRepository extends JpaRepository<Actor, Short>{
-    
+    public Actor findByFirstNameAndLastName(String firstName, String lastName);
 }
