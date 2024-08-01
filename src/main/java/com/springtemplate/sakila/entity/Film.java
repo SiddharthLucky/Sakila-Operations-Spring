@@ -5,13 +5,15 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
-
-import javax.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Data
 @Getter
@@ -62,17 +64,18 @@ public class Film {
     @Column(name = "last_update", nullable = false)
     private Instant lastUpdate;
 
-    // @ManyToMany
-    // @JoinTable(
-    //         name = "film_actor",
-    //         joinColumns = 
-    //         {
-    //             @JoinColumn(name = "film_id", referencedColumnName = "film_id") 
-    //         },
-    //                 inverseJoinColumns = { 
-    //                     @JoinColumn(name = "actor_id", referencedColumnName = "actor_id") 
-    //                 }
-    // )
-    // private List<Actor> actors = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "film_actor",
+            joinColumns = {
+                 @JoinColumn(name = "film_id", referencedColumnName = "film_id")
+             },
+            inverseJoinColumns = {
+                         @JoinColumn(name = "actor_id", referencedColumnName = "actor_id")
+            }
+     )
+     @JsonManagedReference
+    @Fetch(FetchMode.JOIN)
+     private List<Actor> actorsList = new ArrayList<>();
 
 }

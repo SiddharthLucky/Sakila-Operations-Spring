@@ -4,18 +4,20 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Setter
 @Getter
 @Entity
-@Table(name = "actor")
 @Data
 @NoArgsConstructor
 public class Actor {
@@ -33,7 +35,9 @@ public class Actor {
     @Column(name = "last_update", nullable = false)
     private Instant lastUpdate;
 
-    // //@JsonIgnore
-    // @ManyToMany(mappedBy = "actors", fetch = FetchType.LAZY)
-    // private Set<Film> films = new HashSet<>();
+     //@JsonIgnore
+    @JsonBackReference
+    @ManyToMany(mappedBy = "actorsList")
+    @Fetch(FetchMode.JOIN)
+    private Set<Film> filmsSet = new HashSet<>();
 }
